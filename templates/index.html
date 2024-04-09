@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планирование визитов</title>
+</head>
+<body>
+    <h1>Планирование визитов</h1>
+    <h2>Список объектов</h2>
+    <ul id="object-list">
+        {% for obj in object %}
+        <li>{{ obj.name }} 
+            <a
+            class="btn btn-lg btn-primary"
+            href="{% url 'meetings:create_visit' obj.id %}" role="button"
+          >
+            Создать визит
+          </a>
+
+        {% endfor %}
+    </ul>
+
+
+    <h2>Список визитов {{ user }}</h2>
+    {% for visit in user.visits.all %}
+        <p>{{ visit }}</p>
+        {% if not visit.is_started %}
+            <a class="btn btn-lg btn-primary"
+               href="{% url 'meetings:start_visit' visit.id %}"
+               role="button">
+                Начать визит
+            </a>
+        {% endif %}
+        {% if visit.is_started and not visit.is_ended %}
+            <a class="btn btn-lg btn-primary"
+               href="{% url 'meetings:end_visit' visit.id %}"
+               role="button">
+                Завершить визит
+            </a>
+        {% endif %}
+    {% endfor %}
+    
+    <div>
+        {% include 'report.html' %}
+    </div>
+</body>
+</html>

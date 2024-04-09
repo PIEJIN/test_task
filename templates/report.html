@@ -1,0 +1,51 @@
+<h1>Visit Report {{user}} {{start_date}} {{end_date}}</h1>
+
+<!-- Форма для ввода дат -->
+<form method="post" action={% url 'meetings:get_report' %}>
+    {% csrf_token %}
+    <label for="start_date">Start Date:</label>
+    <input type="date" id="start_date" name="start_date">
+    <label for="end_date">End Date:</label>
+    <input type="date" id="end_date" name="end_date">
+    <button type="submit">Generate Report</button>
+</form>
+
+<!-- Информация о визитах -->
+<h2>Ended Visits:</h2>
+<ul>
+    {% for visit in ended_visits %}
+        <li>{{ visit }}</li>
+    {% empty %}
+        <li>No ended visits</li>
+    {% endfor %}
+</ul>
+
+<h2>Planned Visits:</h2>
+<ul>
+    {% for visit in planed_visits %}
+        <li>{{ visit }}</li>
+    {% empty %}
+        <li>No planned visits</li>
+    {% endfor %}
+</ul>
+
+<!-- Информация об объектах -->
+<h2>Objects Visited:</h2>
+<ul>
+    {% for object in unic_objects_visited_by_user %}
+        <li>{{ object.name }} </li>
+    {% empty %}
+        <li>No objects visited</li>
+    {% endfor %}
+</ul>
+
+<h2>Objects Visited Times:</h2>
+<ul>
+    {% for key, value in objects_count.items  %}
+        <li>{{ key  }} - {{value}} </li>
+    {% empty %}
+        <li>No objects visited</li>
+    {% endfor %}
+</ul>
+
+<h2>Total Objects Visited: {{ len_of_user_objects }}</h2>
